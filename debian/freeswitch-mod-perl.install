@@ -1,0 +1,3 @@
+/usr/lib/freeswitch/mod/mod_perl.so
+debian/tmp/usr/perl/freeswitch.pm /usr/share/perl5
+debian/tmp/usr/perl/freeswitch.so /usr/share/perl5/auto/freeswitch

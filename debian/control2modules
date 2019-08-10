@@ -1,0 +1,17 @@
+#!/bin/sh
+
+arch=`dpkg --print-architecture | tr -d "\n"`
+noarch="Architecture:.+!${arch}"
+
+cat -s - | \
+  grep -P "(^XBS-Module:|^Architecture:|^$)" | \
+  sed -e "s/[[:space:]]*$//" | \
+  cat -s | \
+  tr "\n" "\t" | \
+  sed -e "s/\tArchitecture:/\fArchitecture:/g" -e "s/\tXBS-Module:/\fXBS-Module:/g" | \
+  tr "\t" "\n" | \
+  grep "XBS-Module:" | \
+  grep -Pv "${noarch}" | \
+  tr "\f" "\n" | \
+  grep -oP "(?<=XBS-Module: ).+$" | \
+  sort -u

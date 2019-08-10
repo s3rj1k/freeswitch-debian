@@ -1,0 +1,60 @@
+#!/usr/bin/make -f
+
+# get debian distribution codename
+#DISTRIBUTION=$(shell lsb_release -sc)
+# get version from changelog, for string mangling
+#VERSION=$(shell dpkg-parsechangelog --count 1 --show-field Version)
+# add distribution codename to package version
+#PACKAGEVERSION=$(subst ~,~$(DISTRIBUTION)-,$(VERSION))
+
+# man dpkg-buildflags
+export DEB_CFLAGS_MAINT_APPEND = -Wno-date-time
+
+%:
+	dh $@ --with autoreconf --with systemd --parallel
+
+override_dh_auto_configure:
+	cat -s debian/control | debian/control2modules > modules.conf
+	./bootstrap.sh
+	./configure -C \
+		--enable-portable-binary \
+		--disable-dependency-tracking \
+		--host=$(DEB_HOST_GNU_TYPE) \
+		--build=$(DEB_BUILD_GNU_TYPE) \
+		--prefix=/usr \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--with-gnu-ld \
+		--with-python \
+		--with-erlang \
+		--with-openssl \
+		--enable-core-odbc-support \
+		--enable-zrtp \
+		--enable-core-pgsql-support
+
+# setting mangled package version
+#override_dh_gencontrol:
+#	dh_gencontrol -- -v$(PACKAGEVERSION)
+
+# https://stackoverflow.com/a/49131896
+override_dh_systemd_enable:
+	dh_systemd_enable --name=freeswitch
+
+override_dh_auto_test:
+:
+
+override_dh_auto_build:
+	# do main make:
+	dh_auto_build
+	# do custom make:
+	make -C libs/esl pymod
+	make -C libs/esl perlmod
+
+override_dh_auto_install:
+	# do main install:
+	dh_auto_install
+	# do custom install:
+	dh_auto_install -- -C libs/esl pymod-install
+	dh_auto_install -- -C libs/esl perlmod-install
+	# cleanup:
+	rm -f debian/tmp/usr/share/freeswitch/grammar/model/communicator/COPYING

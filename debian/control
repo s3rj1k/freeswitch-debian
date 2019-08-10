@@ -1,0 +1,3074 @@
+Source: freeswitch
+Section: comm
+Priority: optional
+Maintainer: FreeSWITCH Solutions <packages@freeswitch.com>
+Build-Depends:
+# for debian:
+ debhelper (>= 8.0.0),
+ dh-systemd,
+# bootstrapping:
+ autoconf,
+ automake (>= 1.9),
+ git,
+ libtool,
+ libtool-bin,
+ wget,
+# core build:
+ dpkg-dev (>= 1.15.8.12),
+ bison,
+ g++ (>= 4:4.4.5),
+ gcc (>= 4:4.4.5),
+ libc6-dev (>= 2.11.3),
+ libedit-dev (>= 2.11),
+ libncurses5-dev,
+ libpcre3-dev,
+ libtiff5-dev,
+ make (>= 3.81),
+ pkg-config,
+ yasm,
+ zlib1g-dev,
+# core codecs:
+ libflac-dev,
+ libogg-dev,
+ libspeex-dev,
+ libspeexdsp-dev,
+ libmp3lame-dev,
+# ssl:
+ libssl1.0-dev | libssl-dev,
+# jpeg:
+ libjpeg62-turbo-dev | libjpeg-turbo8-dev | libjpeg62-dev | libjpeg8-dev,
+# perl:
+ libperl-dev,
+# python:
+ python-all-dev,
+ python-dev,
+ python-support (>= 0.90) | dh-python,
+# db:
+ libpq-dev,
+ libsqlite3-dev,
+ unixodbc-dev,
+# documentation:
+ doxygen,
+# for APR (not essential for build):
+ libdb-dev,
+ libexpat1-dev,
+ libgdbm-dev,
+ uuid-dev,
+# used by many modules:
+ libcurl4-openssl-dev | libcurl4-gnutls-dev | libcurl-dev,
+# mod-flite:
+ flite1-dev,
+# mod-bv:
+ libbroadvoice-dev,
+# mod-silk:
+ libsilk-dev,
+# mod_pocketsphinx:
+ libpocketsphinx-dev,
+# mod-v8:
+# libv8fs-6.1-dev,
+# mod-amqp:
+ librabbitmq-dev,
+# mod_java:
+ default-jdk, gcj-jdk,
+# mod_lua:
+ liblua5.2-dev | liblua5.1-dev,
+# mod_vlc:
+ libvlc-dev (>= 2.0.0),
+# mod_redis:
+ libhiredis-dev,
+# mod_codec2:
+ libcodec2-dev,
+# mod_snmp:
+ libsnmp-dev,
+# mod_ldap:
+ libldap2-dev,
+# mod-erlang-event:
+ erlang-dev,
+# mod-opus:
+ libopus-dev,
+# mod-yaml:
+ libyaml-dev,
+# mod-spandsp:
+ ladspa-sdk,
+# mod-shout:
+ libshout3-dev,
+# mod-imagick:
+ libmagickcore-dev,
+# mod-cv:
+ libopencv-dev,
+# mod-sndfile:
+ libsndfile1-dev,
+# mod-soundtouch:
+ libsoundtouch-dev,
+# mod-signalwire:
+ libks, signalwire-client-c,
+# other fixes:
+ libldns-fs-dev | libldns-dev,
+# other module build-depends:
+ libasound2-dev,
+ libavformat-dev,
+ libavresample-dev,
+ libglib2.0-dev,
+ libmemcached-dev,
+ libmpg123-dev,
+ libopencore-amrnb-dev,
+ libswscale-dev,
+ libvorbis-dev,
+ portaudio19-dev,
+# mono:
+ libmono-2.0-dev,
+ mono-mcs
+Standards-Version: 4.3.0.3
+Homepage: https://freeswitch.org/
+Vcs-Git: https://freeswitch.org/stash/scm/fs/freeswitch.git
+Vcs-Browser: https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse
+
+Package: freeswitch-all
+Architecture: amd64 arm64 armhf
+Depends: freeswitch-meta-all (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a package which depends on all packaged FreeSWITCH modules.
+
+Package: freeswitch
+Architecture: amd64 arm64 armhf
+Depends: ${shlibs:Depends}, ${perl:Depends}, ${misc:Depends},
+ libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the FreeSWITCH core.
+
+Package: libfreeswitch1
+Architecture: amd64 arm64 armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the FreeSWITCH core library.
+
+Package: python-esl
+Section: python
+Architecture: amd64 arm64 armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the Python binding for FreeSWITCH
+ Event Socket Library (ESL).
+
+Package: libesl-perl
+Section: perl
+Architecture: amd64 arm64 armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the Perl binding for FreeSWITCH
+ Event Socket Library (ESL).
+
+Package: freeswitch-meta-bare
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version})
+Recommends:
+ freeswitch-doc (= ${binary:Version}),
+ freeswitch-mod-commands (= ${binary:Version}),
+ freeswitch-init,
+ freeswitch-lang (= ${binary:Version}),
+ freeswitch-timezones (= ${binary:Version}),
+ freeswitch-music,
+ freeswitch-sounds
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the packages needed for a very
+ bare FreeSWITCH install.
+
+Package: freeswitch-meta-default
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version}),
+ freeswitch-mod-commands (= ${binary:Version}),
+ freeswitch-mod-conference (= ${binary:Version}),
+ freeswitch-mod-db (= ${binary:Version}),
+ freeswitch-mod-dptools (= ${binary:Version}),
+ freeswitch-mod-fifo (= ${binary:Version}),
+ freeswitch-mod-hash (= ${binary:Version}),
+ freeswitch-mod-spandsp (= ${binary:Version}),
+ freeswitch-mod-voicemail (= ${binary:Version}),
+ freeswitch-mod-dialplan-xml (= ${binary:Version}),
+ freeswitch-mod-loopback (= ${binary:Version}),
+ freeswitch-mod-sofia (= ${binary:Version}),
+ freeswitch-mod-local-stream (= ${binary:Version}),
+ freeswitch-mod-native-file (= ${binary:Version}),
+ freeswitch-mod-sndfile (= ${binary:Version}),
+ freeswitch-mod-tone-stream (= ${binary:Version}),
+ freeswitch-mod-lua (= ${binary:Version}),
+ freeswitch-mod-console (= ${binary:Version}),
+ freeswitch-mod-say-en (= ${binary:Version})
+Recommends:
+ freeswitch-init,
+ freeswitch-lang (= ${binary:Version}),
+ freeswitch-timezones (= ${binary:Version}),
+ freeswitch-meta-codecs (= ${binary:Version}),
+ freeswitch-music,
+ freeswitch-sounds
+Suggests:
+ freeswitch-mod-cidlookup (= ${binary:Version}),
+ freeswitch-mod-curl (= ${binary:Version}),
+ freeswitch-mod-directory (= ${binary:Version}),
+ freeswitch-mod-enum (= ${binary:Version}),
+ freeswitch-mod-spy (= ${binary:Version}),
+ freeswitch-mod-valet-parking (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the packages needed for a
+ reasonably basic FreeSWITCH install.
+
+Package: freeswitch-meta-vanilla
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version}),
+ freeswitch-init,
+ freeswitch-mod-console (= ${binary:Version}),
+ freeswitch-mod-logfile (= ${binary:Version}),
+ freeswitch-mod-enum (= ${binary:Version}),
+ freeswitch-mod-cdr-csv (= ${binary:Version}),
+ freeswitch-mod-event-socket (= ${binary:Version}),
+ freeswitch-mod-sofia (= ${binary:Version}),
+ freeswitch-mod-loopback (= ${binary:Version}),
+ freeswitch-mod-commands (= ${binary:Version}),
+ freeswitch-mod-conference (= ${binary:Version}),
+ freeswitch-mod-db (= ${binary:Version}),
+ freeswitch-mod-dptools (= ${binary:Version}),
+ freeswitch-mod-expr (= ${binary:Version}),
+ freeswitch-mod-fifo (= ${binary:Version}),
+ freeswitch-mod-hash (= ${binary:Version}),
+ freeswitch-mod-voicemail (= ${binary:Version}),
+ freeswitch-mod-esf (= ${binary:Version}),
+ freeswitch-mod-fsv (= ${binary:Version}),
+ freeswitch-mod-valet-parking (= ${binary:Version}),
+ freeswitch-mod-httapi (= ${binary:Version}),
+ freeswitch-mod-dialplan-xml (= ${binary:Version}),
+ freeswitch-mod-dialplan-asterisk (= ${binary:Version}),
+ freeswitch-mod-spandsp (= ${binary:Version}),
+ freeswitch-mod-g723-1 (= ${binary:Version}),
+ freeswitch-mod-g729 (= ${binary:Version}),
+ freeswitch-mod-amr (= ${binary:Version}),
+ freeswitch-mod-h26x (= ${binary:Version}),
+ freeswitch-mod-sndfile (= ${binary:Version}),
+ freeswitch-mod-native-file (= ${binary:Version}),
+ freeswitch-mod-local-stream (= ${binary:Version}),
+ freeswitch-mod-tone-stream (= ${binary:Version}),
+ freeswitch-mod-lua (= ${binary:Version}),
+ freeswitch-mod-say-en (= ${binary:Version})
+Recommends:
+ freeswitch-lang (= ${binary:Version}),
+ freeswitch-timezones (= ${binary:Version}),
+ freeswitch-music,
+ freeswitch-sounds,
+ freeswitch-conf-vanilla (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the packages needed for
+ running the FreeSWITCH vanilla example configuration.
+
+Package: freeswitch-meta-sorbet
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version})
+Recommends:
+ freeswitch-init,
+ freeswitch-lang (= ${binary:Version}),
+ freeswitch-timezones (= ${binary:Version}),
+ freeswitch-meta-codecs (= ${binary:Version}),
+ freeswitch-music,
+ freeswitch-sounds,
+ freeswitch-mod-abstraction (= ${binary:Version}),
+ freeswitch-mod-avmd (= ${binary:Version}),
+ freeswitch-mod-blacklist (= ${binary:Version}),
+ freeswitch-mod-callcenter (= ${binary:Version}),
+ freeswitch-mod-cidlookup (= ${binary:Version}),
+ freeswitch-mod-commands (= ${binary:Version}),
+ freeswitch-mod-conference (= ${binary:Version}),
+ freeswitch-mod-curl (= ${binary:Version}),
+ freeswitch-mod-db (= ${binary:Version}),
+ freeswitch-mod-directory (= ${binary:Version}),
+ freeswitch-mod-distributor (= ${binary:Version}),
+ freeswitch-mod-dptools (= ${binary:Version}),
+ freeswitch-mod-easyroute (= ${binary:Version}),
+ freeswitch-mod-enum (= ${binary:Version}),
+ freeswitch-mod-esf (= ${binary:Version}),
+ freeswitch-mod-esl (= ${binary:Version}),
+ freeswitch-mod-expr (= ${binary:Version}),
+ freeswitch-mod-fifo (= ${binary:Version}),
+ freeswitch-mod-fsk (= ${binary:Version}),
+ freeswitch-mod-fsv (= ${binary:Version}),
+ freeswitch-mod-hash (= ${binary:Version}),
+ freeswitch-mod-httapi (= ${binary:Version}),
+ freeswitch-mod-http-cache (= ${binary:Version}),
+ freeswitch-mod-lcr (= ${binary:Version}),
+ freeswitch-mod-nibblebill (= ${binary:Version}),
+ freeswitch-mod-oreka (= ${binary:Version}),
+ freeswitch-mod-redis (= ${binary:Version}),
+ freeswitch-mod-rss (= ${binary:Version}),
+ freeswitch-mod-sms (= ${binary:Version}),
+ freeswitch-mod-snapshot (= ${binary:Version}),
+ freeswitch-mod-snom (= ${binary:Version}),
+ freeswitch-mod-sonar (= ${binary:Version}),
+ freeswitch-mod-soundtouch (= ${binary:Version}),
+ freeswitch-mod-spandsp (= ${binary:Version}),
+ freeswitch-mod-spy (= ${binary:Version}),
+ freeswitch-mod-stress (= ${binary:Version}),
+ freeswitch-mod-valet-parking (= ${binary:Version}),
+ freeswitch-mod-vmd (= ${binary:Version}),
+ freeswitch-mod-voicemail (= ${binary:Version}),
+ freeswitch-mod-voicemail-ivr (= ${binary:Version}),
+ freeswitch-mod-flite (= ${binary:Version}),
+ freeswitch-mod-pocketsphinx (= ${binary:Version}),
+ freeswitch-mod-tts-commandline (= ${binary:Version}),
+ freeswitch-mod-dialplan-xml (= ${binary:Version}),
+ freeswitch-mod-loopback (= ${binary:Version}),
+ freeswitch-mod-rtmp (= ${binary:Version}),
+ freeswitch-mod-skinny (= ${binary:Version}),
+ freeswitch-mod-sofia (= ${binary:Version}),
+ freeswitch-mod-cdr-csv (= ${binary:Version}),
+ freeswitch-mod-cdr-sqlite (= ${binary:Version}),
+ freeswitch-mod-event-socket (= ${binary:Version}),
+ freeswitch-mod-json-cdr (= ${binary:Version}),
+ freeswitch-mod-local-stream (= ${binary:Version}),
+ freeswitch-mod-native-file (= ${binary:Version}),
+ freeswitch-mod-shell-stream (= ${binary:Version}),
+ freeswitch-mod-sndfile (= ${binary:Version}),
+ freeswitch-mod-tone-stream (= ${binary:Version}),
+ freeswitch-mod-lua (= ${binary:Version}),
+ freeswitch-mod-console (= ${binary:Version}),
+ freeswitch-mod-logfile (= ${binary:Version}),
+ freeswitch-mod-syslog (= ${binary:Version}),
+ freeswitch-mod-say-en (= ${binary:Version}),
+ freeswitch-mod-posix-timer (= ${binary:Version}),
+ freeswitch-mod-timerfd (= ${binary:Version}),
+ freeswitch-mod-xml-cdr (= ${binary:Version}),
+ freeswitch-mod-xml-curl (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which recommends most packaged FreeSWITCH
+ modules except a few which aren't recommended.
+
+Package: freeswitch-meta-all
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version}),
+ freeswitch-init,
+ freeswitch-lang (= ${binary:Version}),
+ freeswitch-timezones (= ${binary:Version}),
+ freeswitch-meta-codecs (= ${binary:Version}),
+ freeswitch-meta-conf (= ${binary:Version}),
+ freeswitch-meta-lang (= ${binary:Version}),
+ freeswitch-meta-mod-say (= ${binary:Version}),
+ freeswitch-music,
+ freeswitch-sounds,
+ freeswitch-mod-abstraction (= ${binary:Version}),
+ freeswitch-mod-avmd (= ${binary:Version}),
+ freeswitch-mod-av (= ${binary:Version}),
+ freeswitch-mod-blacklist (= ${binary:Version}),
+ freeswitch-mod-callcenter (= ${binary:Version}),
+ freeswitch-mod-cidlookup (= ${binary:Version}),
+ freeswitch-mod-commands (= ${binary:Version}),
+ freeswitch-mod-conference (= ${binary:Version}),
+ freeswitch-mod-curl (= ${binary:Version}),
+ freeswitch-mod-db (= ${binary:Version}),
+ freeswitch-mod-directory (= ${binary:Version}),
+ freeswitch-mod-distributor (= ${binary:Version}),
+ freeswitch-mod-dptools (= ${binary:Version}),
+ freeswitch-mod-easyroute (= ${binary:Version}),
+ freeswitch-mod-enum (= ${binary:Version}),
+ freeswitch-mod-esf (= ${binary:Version}),
+ freeswitch-mod-esl (= ${binary:Version}),
+ freeswitch-mod-expr (= ${binary:Version}),
+ freeswitch-mod-fifo (= ${binary:Version}),
+ freeswitch-mod-fsk (= ${binary:Version}),
+ freeswitch-mod-fsv (= ${binary:Version}),
+ freeswitch-mod-hash (= ${binary:Version}),
+ freeswitch-mod-httapi (= ${binary:Version}),
+ freeswitch-mod-http-cache (= ${binary:Version}),
+ freeswitch-mod-lcr (= ${binary:Version}),
+ freeswitch-mod-memcache (= ${binary:Version}),
+ freeswitch-mod-nibblebill (= ${binary:Version}),
+ freeswitch-mod-oreka (= ${binary:Version}),
+ freeswitch-mod-png (= ${binary:Version}),
+ freeswitch-mod-redis (= ${binary:Version}),
+ freeswitch-mod-rss (= ${binary:Version}),
+ freeswitch-mod-sms (= ${binary:Version}),
+ freeswitch-mod-snapshot (= ${binary:Version}),
+ freeswitch-mod-snom (= ${binary:Version}),
+ freeswitch-mod-sonar (= ${binary:Version}),
+ freeswitch-mod-soundtouch (= ${binary:Version}),
+ freeswitch-mod-spandsp (= ${binary:Version}),
+ freeswitch-mod-spy (= ${binary:Version}),
+ freeswitch-mod-stress (= ${binary:Version}),
+ freeswitch-mod-translate (= ${binary:Version}),
+ freeswitch-mod-valet-parking (= ${binary:Version}),
+ freeswitch-mod-video-filter (= ${binary:Version}),
+ freeswitch-mod-voicemail (= ${binary:Version}),
+ freeswitch-mod-voicemail-ivr (= ${binary:Version}),
+ freeswitch-mod-flite (= ${binary:Version}),
+ freeswitch-mod-pocketsphinx (= ${binary:Version}),
+ freeswitch-mod-tts-commandline (= ${binary:Version}),
+ freeswitch-mod-unimrcp (= ${binary:Version}),
+ freeswitch-mod-dialplan-asterisk (= ${binary:Version}),
+ freeswitch-mod-dialplan-directory (= ${binary:Version}),
+ freeswitch-mod-dialplan-xml (= ${binary:Version}),
+ freeswitch-mod-dingaling (= ${binary:Version}),
+ freeswitch-mod-loopback (= ${binary:Version}),
+ freeswitch-mod-portaudio (= ${binary:Version}),
+ freeswitch-mod-rtc (= ${binary:Version}),
+ freeswitch-mod-rtmp (= ${binary:Version}),
+ freeswitch-mod-skinny (= ${binary:Version}),
+ freeswitch-mod-sofia (= ${binary:Version}),
+ freeswitch-mod-shout (= ${binary:Version}),
+ freeswitch-mod-verto (= ${binary:Version}),
+ freeswitch-mod-cdr-csv (= ${binary:Version}),
+ freeswitch-mod-cdr-mongodb (= ${binary:Version}),
+ freeswitch-mod-cdr-sqlite (= ${binary:Version}),
+ freeswitch-mod-erlang-event (= ${binary:Version}),
+ freeswitch-mod-event-multicast (= ${binary:Version}),
+ freeswitch-mod-event-socket (= ${binary:Version}),
+ freeswitch-mod-json-cdr (= ${binary:Version}),
+ freeswitch-mod-kazoo (= ${binary:Version}),
+ freeswitch-mod-snmp (= ${binary:Version}),
+ freeswitch-mod-local-stream (= ${binary:Version}),
+ freeswitch-mod-native-file (= ${binary:Version}),
+ freeswitch-mod-portaudio-stream (= ${binary:Version}),
+ freeswitch-mod-signalwire (= ${binary:Version}),
+ freeswitch-mod-shell-stream (= ${binary:Version}),
+ freeswitch-mod-sndfile (= ${binary:Version}),
+ freeswitch-mod-tone-stream (= ${binary:Version}),
+ freeswitch-mod-java (= ${binary:Version}),
+ freeswitch-mod-lua (= ${binary:Version}),
+ freeswitch-mod-perl (= ${binary:Version}),
+ freeswitch-mod-python (= ${binary:Version}),
+ freeswitch-mod-yaml (= ${binary:Version}),
+ freeswitch-mod-console (= ${binary:Version}),
+ freeswitch-mod-logfile (= ${binary:Version}),
+ freeswitch-mod-syslog (= ${binary:Version}),
+ freeswitch-mod-posix-timer (= ${binary:Version}),
+ freeswitch-mod-timerfd (= ${binary:Version}),
+ freeswitch-mod-xml-cdr (= ${binary:Version}),
+ freeswitch-mod-xml-curl (= ${binary:Version}),
+ freeswitch-mod-xml-rpc (= ${binary:Version}),
+ freeswitch-mod-xml-scgi (= ${binary:Version})
+Suggests:
+ freeswitch-mod-vmd (= ${binary:Version}),
+ freeswitch-mod-vlc (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which recommends or suggests all packaged
+ FreeSWITCH modules.
+
+Package: freeswitch-meta-codecs
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch (= ${binary:Version}),
+ freeswitch-mod-amr (= ${binary:Version}),
+ freeswitch-mod-amrwb (= ${binary:Version}),
+ freeswitch-mod-b64 (= ${binary:Version}),
+ freeswitch-mod-bv (= ${binary:Version}),
+ freeswitch-mod-codec2 (= ${binary:Version}),
+ freeswitch-mod-dahdi-codec (= ${binary:Version}),
+ freeswitch-mod-g723-1 (= ${binary:Version}),
+ freeswitch-mod-g729 (= ${binary:Version}),
+ freeswitch-mod-h26x (= ${binary:Version}),
+ freeswitch-mod-isac (= ${binary:Version}),
+ freeswitch-mod-mp4v (= ${binary:Version}),
+ freeswitch-mod-opus (= ${binary:Version}),
+ freeswitch-mod-silk (= ${binary:Version}),
+ freeswitch-mod-spandsp (= ${binary:Version}),
+ freeswitch-mod-theora (= ${binary:Version})
+Suggests:
+ freeswitch-mod-ilbc (= ${binary:Version}),
+ freeswitch-mod-siren (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the packages needed to install
+ most FreeSWITCH codecs.
+
+Package: freeswitch-meta-conf
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends},
+ freeswitch-conf-curl (= ${binary:Version}),
+ freeswitch-conf-insideout (= ${binary:Version}),
+ freeswitch-conf-sbc (= ${binary:Version}),
+ freeswitch-conf-softphone (= ${binary:Version}),
+ freeswitch-conf-vanilla (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the available configuration
+ examples for FreeSWITCH.
+
+Package: freeswitch-meta-lang
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends},
+ freeswitch-lang-de (= ${binary:Version}),
+ freeswitch-lang-en (= ${binary:Version}),
+ freeswitch-lang-es (= ${binary:Version}),
+ freeswitch-lang-fr (= ${binary:Version}),
+ freeswitch-lang-he (= ${binary:Version}),
+ freeswitch-lang-pt (= ${binary:Version}),
+ freeswitch-lang-ru (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on all language files for
+ FreeSWITCH.
+
+Package: freeswitch-meta-mod-say
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends},
+ freeswitch-mod-say-de (= ${binary:Version}),
+ freeswitch-mod-say-en (= ${binary:Version}),
+ freeswitch-mod-say-es (= ${binary:Version}),
+ freeswitch-mod-say-fa (= ${binary:Version}),
+ freeswitch-mod-say-fr (= ${binary:Version}),
+ freeswitch-mod-say-he (= ${binary:Version}),
+ freeswitch-mod-say-hr (= ${binary:Version}),
+ freeswitch-mod-say-hu (= ${binary:Version}),
+ freeswitch-mod-say-it (= ${binary:Version}),
+ freeswitch-mod-say-ja (= ${binary:Version}),
+ freeswitch-mod-say-nl (= ${binary:Version}),
+ freeswitch-mod-say-pl (= ${binary:Version}),
+ freeswitch-mod-say-pt (= ${binary:Version}),
+ freeswitch-mod-say-ru (= ${binary:Version}),
+ freeswitch-mod-say-th (= ${binary:Version}),
+ freeswitch-mod-say-zh (= ${binary:Version})
+Description: Cross-Platform Scalable Multi-Protocol Soft Switch
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on all mod_say languages for
+ FreeSWITCH.
+
+Package: libfreeswitch-dev
+Section: libdevel
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch
+Description: development libraries and header files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains include files for FreeSWITCH.
+
+Package: freeswitch-doc
+Section: doc
+Architecture: any
+Depends: ${misc:Depends}
+Description: documentation for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains Doxygen-produced documentation for FreeSWITCH.
+ It may be an empty package at the moment.
+
+Package: freeswitch-lang
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends} freeswitch-lang-en (= ${binary:Version})
+Description: Language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This is a metapackage which depends on the default language packages
+ for FreeSWITCH.
+
+Package: freeswitch-timezones
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Description: Timezone files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the timezone files for FreeSWITCH.
+
+Package: freeswitch-systemd
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}, freeswitch, systemd
+Conflicts: freeswitch-init, freeswitch-all (<< ${binary:Version})
+Provides: freeswitch-init
+Description: FreeSWITCH systemd configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the systemd configuration for FreeSWITCH.
+
+Package: freeswitch-conf-curl
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH curl configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the curl configuration for FreeSWITCH.
+
+Package: freeswitch-conf-insideout
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH insideout configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the insideout configuration for FreeSWITCH.
+
+Package: freeswitch-conf-minimal
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH minimal configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the minimal configuration for FreeSWITCH.
+
+Package: freeswitch-conf-rayo
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH rayo configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the rayo configuration for FreeSWITCH.
+
+Package: freeswitch-conf-sbc
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH sbc configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the sbc configuration for FreeSWITCH.
+
+Package: freeswitch-conf-softphone
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH softphone configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the softphone configuration for FreeSWITCH.
+
+Package: freeswitch-conf-testing
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH testing configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the testing configuration for FreeSWITCH.
+
+Package: freeswitch-conf-vanilla
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FreeSWITCH vanilla configuration
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains the vanilla configuration for FreeSWITCH.
+
+Package: freeswitch-lang-de
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-de
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: German language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the German language files for FreeSWITCH.
+
+Package: freeswitch-lang-en
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-en
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: English language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the English language files for FreeSWITCH.
+
+Package: freeswitch-lang-es
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-es
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Spanish language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the Spanish language files for FreeSWITCH.
+
+Package: freeswitch-lang-fr
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-fr
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: French language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the French language files for FreeSWITCH.
+
+Package: freeswitch-lang-he
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-he
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Hebrew language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the Hebrew language files for FreeSWITCH.
+
+Package: freeswitch-lang-pt
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-pt
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Portuguese language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the Portuguese language files for FreeSWITCH.
+
+Package: freeswitch-lang-ru
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-ru
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Russian language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the Russian language files for FreeSWITCH.
+
+Package: freeswitch-lang-sv
+Architecture: amd64 arm64 armhf
+Depends: ${misc:Depends}
+Recommends: freeswitch-sounds-sv
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: SV language files for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package includes the SV language files for FreeSWITCH.
+
+Package: freeswitch-mod-abstraction
+XBS-Module: applications/mod_abstraction
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Abstraction layer for APIs for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_abstraction for FreeSWITCH.
+ .
+ This module provides a way to create new API functions via regex
+ rewriting.
+
+Package: freeswitch-mod-av
+XBS-Module: applications/mod_av
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_av for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_av for FreeSWITCH.
+ .
+ Adds mod_av.
+
+Package: freeswitch-mod-avmd
+XBS-Module: applications/mod_avmd
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Advanced voicemail detection for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_avmd for FreeSWITCH.
+ .
+ This module attempts to determine when a voicemail system has
+ answered the call.
+
+Package: freeswitch-mod-bert
+XBS-Module: applications/mod_bert
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Line testing tool for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_bert for FreeSWITCH.
+ .
+ This module provides a tool to test a line.
+
+Package: freeswitch-mod-blacklist
+XBS-Module: applications/mod_blacklist
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Blacklist helper for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_blacklist for FreeSWITCH.
+ .
+ This module provides tools to blacklist callers.
+
+Package: freeswitch-mod-callcenter
+XBS-Module: applications/mod_callcenter
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Call center for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_callcenter for FreeSWITCH.
+ .
+ This module implements Automated Call Distribution (ACD) queues.
+
+Package: freeswitch-mod-cidlookup
+XBS-Module: applications/mod_cidlookup
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Caller ID name lookup for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_cidlookup for FreeSWITCH.
+ .
+ This module provides an API for querying caller ID name and location
+ data.
+
+Package: freeswitch-mod-commands
+XBS-Module: applications/mod_commands
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Command module for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_commands for FreeSWITCH.
+ .
+ This module provides miscellaneous API commands.
+
+Package: freeswitch-mod-conference
+XBS-Module: applications/mod_conference
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Conference for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_conference for FreeSWITCH.
+ .
+ This module provides multi-party conferencing.
+
+Package: freeswitch-mod-curl
+XBS-Module: applications/mod_curl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: cURL for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_curl for FreeSWITCH.
+ .
+ This module provides an API for making HTTP requests with cURL.
+
+Package: freeswitch-mod-cv
+XBS-Module: applications/mod_cv
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Computer Vision for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_cv for FreeSWITCH.
+ .
+ This module exposes opencv actions to enable computer vision actions
+
+Package: freeswitch-mod-db
+XBS-Module: applications/mod_db
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: DB for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_db for FreeSWITCH.
+ .
+ This module implements simple db API, group support, and limit db
+ backend.
+
+Package: freeswitch-mod-directory
+XBS-Module: applications/mod_directory
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Dial by name directory for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_directory for FreeSWITCH.
+ .
+ This module implements a dial-by-name directory IVR.
+
+Package: freeswitch-mod-distributor
+XBS-Module: applications/mod_distributor
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Load distributor for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_distributor for FreeSWITCH.
+ .
+ This module implements a mechanism for performing load balancing.
+
+Package: freeswitch-mod-dptools
+XBS-Module: applications/mod_dptools
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Dialplan tools for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dptools for FreeSWITCH.
+ .
+ This module implements basic dialplan tools.
+
+Package: freeswitch-mod-easyroute
+XBS-Module: applications/mod_easyroute
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Easyroute for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_easyroute for FreeSWITCH.
+ .
+ This module does destination lookup based on DID.
+
+Package: freeswitch-mod-enum
+XBS-Module: applications/mod_enum
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: ENUM for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_enum for FreeSWITCH.
+ .
+ This module implements ENUM support.
+
+Package: freeswitch-mod-esf
+XBS-Module: applications/mod_esf
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Multicast support for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_esf for FreeSWITCH.
+ .
+ This module adds multi-cast support.
+
+Package: freeswitch-mod-esl
+XBS-Module: applications/mod_esl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Single ESL for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_esl for FreeSWITCH.
+ .
+ This module adds an API for generating one-off ESL requests.
+
+Package: freeswitch-mod-expr
+XBS-Module: applications/mod_expr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Expr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_expr for FreeSWITCH.
+ .
+ This module adds expr support for expression evaluation.
+
+Package: freeswitch-mod-fifo
+XBS-Module: applications/mod_fifo
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FIFO for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_fifo for FreeSWITCH.
+ .
+ This module adds a first-in first-out queue system.
+
+Package: freeswitch-mod-fsk
+XBS-Module: applications/mod_fsk
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Frequency-shift keying for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_fsk for FreeSWITCH.
+ .
+ This module adds frequency-shift keying support which can be used to
+ send and receive caller ID.
+
+Package: freeswitch-mod-fsv
+XBS-Module: applications/mod_fsk
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: FSV for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_fsv for FreeSWITCH.
+ .
+ This module provides dialplan applications for recording and playing
+ FSV videos.
+
+Package: freeswitch-mod-hash
+XBS-Module: applications/mod_hash
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Hash for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_hash for FreeSWITCH.
+ .
+ This module provides a hash API, a key-value in-memory datastore.
+
+Package: freeswitch-mod-hiredis
+XBS-Module: applications/mod_hiredis
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libfreeswitch1 (= ${binary:Version}), libhiredis0.10 | libhiredis0.13
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Redis client support for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_hiredis for FreeSWITCH.
+ .
+ This module provides a mechanism to use Redis as a datastore.
+
+Package: freeswitch-mod-httapi
+XBS-Module: applications/mod_httapi
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: HT-TAPI Hypertext Telephony API for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_httapi for FreeSWITCH.
+ .
+ This module provides an API for controlling the switch by responding
+ to HTTP requests.
+
+Package: freeswitch-mod-http-cache
+XBS-Module: applications/mod_http_cache
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: HTTP GET with caching for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_http_cache for FreeSWITCH.
+ .
+ This module provides an API for making HTTP GET requests where the
+ result is cached.
+
+Package: freeswitch-mod-ladspa
+XBS-Module: applications/mod_ladspa
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Suggests: tap-plugins, swh-plugins, autotalent
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: LADSPA for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_ladspa for FreeSWITCH.
+ .
+ This module provides an API for accessing LADSPA plugins.
+
+Package: freeswitch-mod-lcr
+XBS-Module: applications/mod_lcr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: LCR for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_lcr for FreeSWITCH.
+ .
+ This module adds a facility for least-cost routing.
+
+Package: freeswitch-mod-memcache
+XBS-Module: applications/mod_memcache
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Memcache for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_memcache for FreeSWITCH.
+ .
+ This module provides an interface to memcache servers.
+
+Package: freeswitch-mod-nibblebill
+XBS-Module: applications/mod_nibblebill
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Nibblebill for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_nibblebill for FreeSWITCH.
+ .
+ This module allows for real-time accounting of a cash balance and
+ using that information for call routing.
+
+Package: freeswitch-mod-oreka
+XBS-Module: applications/mod_oreka
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Media recording with Oreka for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_oreka for FreeSWITCH.
+ .
+ This module provides media recording with the Oreka cross-platfor
+ audio stream recording and retrieval system.
+
+Package: freeswitch-mod-prefix
+XBS-Module: applications/mod_prefix
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Longest prefix match search for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_prefix for FreeSWITCH.
+ .
+ This module provides a data store with fast lookups by the longest
+ prefix match (LPM) rule.
+
+Package: freeswitch-mod-random
+XBS-Module: applications/mod_random
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Entropy extraction for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_random for FreeSWITCH.
+ .
+ This module extracts entropy from FreeSWITCH and feeds it into
+ /dev/random.
+
+Package: freeswitch-mod-redis
+XBS-Module: applications/mod_redis
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Redis limit backend for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_redis for FreeSWITCH.
+ .
+ This module provides a mechanism to use Redis as a backend data
+ store.
+
+Package: freeswitch-mod-rss
+XBS-Module: applications/mod_rss
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: RSS browser for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_rss for FreeSWITCH.
+ .
+ This module provides an RSS browser.
+
+Package: freeswitch-mod-signalwire
+XBS-Module: applications/mod_signalwire
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: SignalWire module for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_signalwire for FreeSWITCH.
+ .
+ Adds mod_signalwire.
+
+Package: freeswitch-mod-sms
+XBS-Module: applications/mod_sms
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Astract SMS for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_sms for FreeSWITCH.
+ .
+ This module provides an abstract facility for interfacing with SMS
+ systems.
+
+Package: freeswitch-mod-snapshot
+XBS-Module: applications/mod_snapshot
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Snapshot for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_snapshot for FreeSWITCH.
+ .
+ This module can record a sliding window of audio and take snapshots
+ to disk.
+
+Package: freeswitch-mod-snom
+XBS-Module: applications/mod_snom
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: SNOM specific features for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_snom for FreeSWITCH.
+ .
+ This module implements features specific to SNOM phones.
+
+Package: freeswitch-mod-sonar
+XBS-Module: applications/mod_sonar
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Sonar ping timer for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_sonar for FreeSWITCH.
+ .
+ This module measures the latency on an audio link by sending audible
+ audio sonar pings.
+
+Package: freeswitch-mod-soundtouch
+XBS-Module: applications/mod_soundtouch
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Soundtouch for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_soundtouch for FreeSWITCH.
+ .
+ This module implements example media bugs.
+
+Package: freeswitch-mod-spandsp
+XBS-Module: applications/mod_spandsp
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: SpanDSP for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_spandsp for FreeSWITCH.
+ .
+ This module implements spandsp fax, dsp, and codec functionality.
+
+Package: freeswitch-mod-spy
+XBS-Module: applications/mod_spy
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: UserSpy for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_spy for FreeSWITCH.
+ .
+ This module adds the ability to monitor the audio of a channel.
+
+Package: freeswitch-mod-stress
+XBS-Module: applications/mod_stress
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Voice stress detection for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_stress for FreeSWITCH.
+ .
+ This module attempts to detect voice stress on an audio channel.
+
+Package: freeswitch-mod-translate
+XBS-Module: applications/mod_translate
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Number translation for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_translate for FreeSWITCH.
+ .
+ This module implements number translation.
+
+Package: freeswitch-mod-valet-parking
+XBS-Module: applications/mod_valet_parking
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Valet parking for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_valet_parking for FreeSWITCH.
+ .
+ This module implements the valet call parking strategy.
+
+Package: freeswitch-mod-video-filter
+XBS-Module: applications/mod_video_filter
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Video filter chromakey for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_video_filter for FreeSWITCH.
+ .
+ This module provides a media bug for chromakey functionality
+
+Package: freeswitch-mod-vmd
+XBS-Module: applications/mod_vmd
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Voicemail detection for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_vmd for FreeSWITCH.
+ .
+ This module detects voicemail beeps at any frequency in O(1) time.
+
+Package: freeswitch-mod-voicemail
+XBS-Module: applications/mod_voicemail
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libfreeswitch1 (= ${binary:Version}), ssmtp | mail-transport-agent
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Voicemail for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_voicemail for FreeSWITCH.
+ .
+ This module provides a voicemail system.
+
+Package: freeswitch-mod-voicemail-ivr
+XBS-Module: applications/mod_voicemail_ivr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Voicemail IVR for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_voicemail_ivr for FreeSWITCH.
+ .
+ This module provides an extensible voicemail IVR system.
+
+Package: freeswitch-mod-flite
+XBS-Module: asr_tts/mod_flite
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_flite for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_flite for FreeSWITCH.
+ .
+ Adds mod_flite.
+
+Package: freeswitch-mod-pocketsphinx
+XBS-Module: asr_tts/mod_pocketsphinx
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_pocketsphinx for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_pocketsphinx for FreeSWITCH.
+ .
+ Adds mod_pocketsphinx.
+
+Package: freeswitch-mod-tts-commandline
+XBS-Module: asr_tts/mod_tts_commandline
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_tts_commandline for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_tts_commandline for FreeSWITCH.
+ .
+ Adds mod_tts_commandline.
+
+Package: freeswitch-mod-unimrcp
+XBS-Module: asr_tts/mod_unimrcp
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_unimrcp for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_unimrcp for FreeSWITCH.
+ .
+ Adds mod_unimrcp.
+
+Package: freeswitch-mod-amr
+XBS-Module: codecs/mod_amr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_amr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_amr for FreeSWITCH.
+ .
+ Adds mod_amr.
+
+Package: freeswitch-mod-amrwb
+XBS-Module: codecs/mod_amrwb
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_amrwb for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_amrwb for FreeSWITCH.
+ .
+ Adds mod_amrwb.
+
+Package: freeswitch-mod-b64
+XBS-Module: codecs/mod_b64
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_b64 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_b64 for FreeSWITCH.
+ .
+ Adds mod_b64.
+
+Package: freeswitch-mod-bv
+XBS-Module: codecs/mod_bv
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_bv for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_bv for FreeSWITCH.
+ .
+ Adds mod_bv.
+
+Package: freeswitch-mod-clearmode
+XBS-Module: codecs/mod_clearmode
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_clearmode. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_clearmode for FreeSWITCH.
+ .
+
+Package: freeswitch-mod-codec2
+XBS-Module: codecs/mod_codec2
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_codec2 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_codec2 for FreeSWITCH.
+ .
+ Adds mod_codec2.
+
+Package: freeswitch-mod-dahdi-codec
+XBS-Module: codecs/mod_dahdi_codec
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_dahdi_codec for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dahdi_codec for FreeSWITCH.
+ .
+ Adds mod_dahdi_codec.
+
+Package: freeswitch-mod-g723-1
+XBS-Module: codecs/mod_g723_1
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_g723_1 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_g723_1 for FreeSWITCH.
+ .
+ Adds mod_g723_1.
+
+Package: freeswitch-mod-g729
+XBS-Module: codecs/mod_g729
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_g729 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_g729 for FreeSWITCH.
+ .
+ Adds mod_g729.
+
+Package: freeswitch-mod-h26x
+XBS-Module: codecs/mod_h26x
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_h26x for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_h26x for FreeSWITCH.
+ .
+ Adds mod_h26x.
+
+Package: freeswitch-mod-isac
+XBS-Module: codecs/mod_isac
+Section: comm
+Architecture: amd64 arm64 armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_isac for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_isac for FreeSWITCH.
+ .
+ Adds mod_isac.
+
+Package: freeswitch-mod-mp4v
+XBS-Module: codecs/mod_mp4v
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_mp4v for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_mp4v for FreeSWITCH.
+ .
+ Adds mod_mp4v.
+
+Package: freeswitch-mod-opus
+XBS-Module: codecs/mod_opus
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_opus for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_opus for FreeSWITCH.
+ .
+ Adds mod_opus.
+
+Package: freeswitch-mod-silk
+XBS-Module: codecs/mod_silk
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_silk for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_silk for FreeSWITCH.
+ .
+ Adds mod_silk.
+
+Package: freeswitch-mod-theora
+XBS-Module: codecs/mod_theora
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_theora for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_theora for FreeSWITCH.
+ .
+ Adds mod_theora.
+
+Package: freeswitch-mod-yuv
+XBS-Module: codecs/mod_yuv
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_yuv for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_yuv for FreeSWITCH.
+ .
+ Adds mod_yuv.
+
+Package: freeswitch-mod-dialplan-asterisk
+XBS-Module: dialplans/mod_dialplan_asterisk
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_dialplan_asterisk for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dialplan_asterisk for FreeSWITCH.
+ .
+ Adds mod_dialplan_asterisk.
+
+Package: freeswitch-mod-dialplan-directory
+XBS-Module: dialplans/mod_dialplan_directory
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_dialplan_directory for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dialplan_directory for FreeSWITCH.
+ .
+ Adds mod_dialplan_directory.
+
+Package: freeswitch-mod-dialplan-xml
+XBS-Module: dialplans/mod_dialplan_xml
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_dialplan_xml for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dialplan_xml for FreeSWITCH.
+ .
+ Adds mod_dialplan_xml.
+
+Package: freeswitch-mod-ldap
+XBS-Module: directories/mod_ldap
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_ldap for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_ldap for FreeSWITCH.
+ .
+ Adds mod_ldap.
+
+Package: freeswitch-mod-alsa
+XBS-Module: endpoints/mod_alsa
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_alsa for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_alsa for FreeSWITCH.
+ .
+ Adds mod_alsa.
+
+Package: freeswitch-mod-dingaling
+XBS-Module: endpoints/mod_dingaling
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_dingaling for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_dingaling for FreeSWITCH.
+ .
+ Adds mod_dingaling.
+
+Package: freeswitch-mod-loopback
+XBS-Module: endpoints/mod_loopback
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_loopback for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_loopback for FreeSWITCH.
+ .
+ Adds mod_loopback.
+
+Package: freeswitch-mod-portaudio
+XBS-Module: endpoints/mod_portaudio
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_portaudio for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_portaudio for FreeSWITCH.
+ .
+ Adds mod_portaudio.
+
+Package: freeswitch-mod-rtc
+XBS-Module: endpoints/mod_rtc
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_rtc. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_rtc for FreeSWITCH.
+ .
+ Adds mod_rtc.
+
+Package: freeswitch-mod-rtmp
+XBS-Module: endpoints/mod_rtmp
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_rtmp for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_rtmp for FreeSWITCH.
+ .
+ Adds mod_rtmp.
+
+Package: freeswitch-mod-skinny
+XBS-Module: endpoints/mod_skinny
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_skinny for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_skinny for FreeSWITCH.
+ .
+ Adds mod_skinny.
+
+Package: freeswitch-mod-sofia
+XBS-Module: endpoints/mod_sofia
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_sofia for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_sofia for FreeSWITCH.
+ .
+ Adds mod_sofia.
+
+Package: freeswitch-mod-verto
+XBS-Module: endpoints/mod_verto
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_verto. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_verto for FreeSWITCH.
+ .
+ Adds mod_verto.
+
+Package: freeswitch-mod-amqp
+XBS-Module: event_handlers/mod_amqp
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Event handler to send events to an amqp server for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_amqp for FreeSWITCH.
+ .
+ AMQP event handler
+
+Package: freeswitch-mod-cdr-csv
+XBS-Module: event_handlers/mod_cdr_csv
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_cdr_csv for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_cdr_csv for FreeSWITCH.
+ .
+ Adds mod_cdr_csv.
+
+Package: freeswitch-mod-cdr-mongodb
+XBS-Module: event_handlers/mod_cdr_mongodb
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_cdr_mongodb for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_cdr_mongodb for FreeSWITCH.
+ .
+ Adds mod_cdr_mongodb.
+
+Package: freeswitch-mod-cdr-sqlite
+XBS-Module: event_handlers/mod_cdr_sqlite
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_cdr_sqlite for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_cdr_sqlite for FreeSWITCH.
+ .
+ Adds mod_cdr_sqlite.
+
+Package: freeswitch-mod-erlang-event
+XBS-Module: event_handlers/mod_erlang_event
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_erlang_event for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_erlang_event for FreeSWITCH.
+ .
+ Adds mod_erlang_event.
+
+Package: freeswitch-mod-event-multicast
+XBS-Module: event_handlers/mod_event_multicast
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_event_multicast for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_event_multicast for FreeSWITCH.
+ .
+ Adds mod_event_multicast.
+
+Package: freeswitch-mod-event-socket
+XBS-Module: event_handlers/mod_event_socket
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_event_socket for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_event_socket for FreeSWITCH.
+ .
+ Adds mod_event_socket.
+
+Package: freeswitch-mod-event-test
+XBS-Module: event_handlers/mod_event_test
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_event_test for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_event_test for FreeSWITCH.
+ .
+ Adds mod_event_test.
+
+Package: freeswitch-mod-event-zmq
+XBS-Module: event_handlers/mod_event_zmq
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_event_zmq for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_event_zmq for FreeSWITCH.
+ .
+ Adds mod_event_zmq.
+
+Package: freeswitch-mod-fail2ban
+XBS-Module: event_handlers/mod_fail2ban
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_fail2ban. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_fail2ban for FreeSWITCH.
+ .
+
+Package: freeswitch-mod-format-cdr
+XBS-Module: event_handlers/mod_format_cdr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_format_cdr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_format_cdr for FreeSWITCH.
+ .
+ Adds mod_format_cdr.
+
+Package: freeswitch-mod-json-cdr
+XBS-Module: event_handlers/mod_json_cdr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_json_cdr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_json_cdr for FreeSWITCH.
+ .
+ Adds mod_json_cdr.
+
+Package: freeswitch-mod-kazoo
+XBS-Module: event_handlers/mod_kazoo
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libfreeswitch1 (= ${binary:Version}), erlang
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_kazoo for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_kazoo for FreeSWITCH.
+ .
+ Adds mod_kazoo.
+
+Package: freeswitch-mod-odbc-cdr
+XBS-Module: event_handlers/mod_odbc_cdr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_odbc_cdr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_odbc_cdr for FreeSWITCH.
+ .
+ Adds mod_odbc_cdr.
+
+Package: freeswitch-mod-radius-cdr
+XBS-Module: event_handlers/mod_radius_cdr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_radius_cdr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_radius_cdr for FreeSWITCH.
+ .
+ Adds mod_radius_cdr.
+
+Package: freeswitch-mod-rayo
+XBS-Module: event_handlers/mod_rayo
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libfreeswitch1 (= ${binary:Version}), freeswitch-mod-ssml (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_rayo for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_rayo for FreeSWITCH.
+ .
+ Adds mod_rayo.
+
+Package: freeswitch-mod-snmp
+XBS-Module: event_handlers/mod_snmp
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_snmp for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_snmp for FreeSWITCH.
+ .
+ Adds mod_snmp.
+
+Package: freeswitch-mod-imagick
+XBS-Module: formats/mod_imagick
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds image formats support for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_imagick for FreeSWITCH.
+ .
+ Adds image formats support via mod_imagick.
+
+Package: freeswitch-mod-local-stream
+XBS-Module: formats/mod_local_stream
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_local_stream for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_local_stream for FreeSWITCH.
+ .
+ Adds mod_local_stream.
+
+Package: freeswitch-mod-native-file
+XBS-Module: formats/mod_native_file
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_native_file for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_native_file for FreeSWITCH.
+ .
+ Adds mod_native_file.
+
+Package: freeswitch-mod-png
+XBS-Module: formats/mod_png
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_png for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_png for FreeSWITCH.
+ .
+ Adds mod_png.
+
+Package: freeswitch-mod-portaudio-stream
+XBS-Module: formats/mod_portaudio_stream
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_portaudio_stream for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_portaudio_stream for FreeSWITCH.
+ .
+ Adds mod_portaudio_stream.
+
+Package: freeswitch-mod-shell-stream
+XBS-Module: formats/mod_shell_stream
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_shell_stream for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_shell_stream for FreeSWITCH.
+ .
+ Adds mod_shell_stream.
+
+Package: freeswitch-mod-shout
+XBS-Module: formats/mod_shout
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_shout for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_shout for FreeSWITCH.
+ .
+ Adds mod_shout.
+
+Package: freeswitch-mod-sndfile
+XBS-Module: formats/mod_sndfile
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_sndfile for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_sndfile for FreeSWITCH.
+ .
+ Adds mod_sndfile.
+
+Package: freeswitch-mod-ssml
+XBS-Module: formats/mod_ssml
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_ssml for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_ssml for FreeSWITCH.
+ .
+ Adds mod_ssml.
+
+Package: freeswitch-mod-tone-stream
+XBS-Module: formats/mod_tone_stream
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_tone_stream for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_tone_stream for FreeSWITCH.
+ .
+ Adds mod_tone_stream.
+
+Package: freeswitch-mod-vlc
+XBS-Module: formats/mod_vlc
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version}), vlc-nox
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: VLC streaming for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_vlc for FreeSWITCH.
+ .
+ This module provides VLC streaming.
+
+Package: freeswitch-mod-basic
+XBS-Module: languages/mod_basic
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_basic. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_basic for FreeSWITCH.
+ .
+ Adds mod_basic.
+
+Package: freeswitch-mod-java
+XBS-Module: languages/mod_java
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_java for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_java for FreeSWITCH.
+ .
+ Adds mod_java.
+
+Package: freeswitch-mod-lua
+XBS-Module: languages/mod_lua
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_lua for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_lua for FreeSWITCH.
+ .
+ Adds mod_lua.
+
+Package: freeswitch-mod-managed
+XBS-Module: languages/mod_managed
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_managed for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_managed for FreeSWITCH.
+ .
+ Adds mod_managed.
+
+Package: freeswitch-mod-perl
+XBS-Module: languages/mod_perl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_perl for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_perl for FreeSWITCH.
+ .
+ Adds mod_perl.
+
+Package: freeswitch-mod-python
+XBS-Module: languages/mod_python
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_python for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_python for FreeSWITCH.
+ .
+ Adds mod_python.
+
+Package: freeswitch-mod-v8
+XBS-Module: languages/mod_v8
+Section: comm
+Architecture: amd64 !arm64 !armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_v8 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_v8 for FreeSWITCH.
+ .
+ Adds mod_v8.
+
+Package: freeswitch-mod-yaml
+XBS-Module: languages/mod_yaml
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_yaml for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_yaml for FreeSWITCH.
+ .
+ Adds mod_yaml.
+
+Package: freeswitch-mod-console
+XBS-Module: loggers/mod_console
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_console for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_console for FreeSWITCH.
+ .
+ Adds mod_console.
+
+Package: freeswitch-mod-graylog2
+XBS-Module: loggers/mod_graylog2
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_graylog2 for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_graylog2 for FreeSWITCH.
+ .
+ Adds mod_greylog2.
+
+Package: freeswitch-mod-logfile
+XBS-Module: loggers/mod_logfile
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_logfile for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_logfile for FreeSWITCH.
+ .
+ Adds mod_logfile.
+
+Package: freeswitch-mod-raven
+XBS-Module: loggers/mod_raven
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: Adds mod_raven. for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_raven for FreeSWITCH.
+ .
+
+Package: freeswitch-mod-syslog
+XBS-Module: loggers/mod_syslog
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_syslog for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_syslog for FreeSWITCH.
+ .
+ Adds mod_syslog.
+
+Package: freeswitch-mod-say-de
+XBS-Module: say/mod_say_de
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_de for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_de for FreeSWITCH.
+ .
+ Adds mod_say_de.
+
+Package: freeswitch-mod-say-en
+XBS-Module: say/mod_say_en
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_en for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_en for FreeSWITCH.
+ .
+ Adds mod_say_en.
+
+Package: freeswitch-mod-say-es
+XBS-Module: say/mod_say_es
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_es for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_es for FreeSWITCH.
+ .
+ Adds mod_say_es.
+
+Package: freeswitch-mod-say-es-ar
+XBS-Module: say/mod_say_es_ar
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_es_ar for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_es_ar for FreeSWITCH.
+ .
+ Adds mod_say_es_ar.
+
+Package: freeswitch-mod-say-fa
+XBS-Module: say/mod_say_fa
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_fa for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_fa for FreeSWITCH.
+ .
+ Adds mod_say_fa.
+
+Package: freeswitch-mod-say-fr
+XBS-Module: say/mod_say_fr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_fr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_fr for FreeSWITCH.
+ .
+ Adds mod_say_fr.
+
+Package: freeswitch-mod-say-he
+XBS-Module: say/mod_say_he
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_he for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_he for FreeSWITCH.
+ .
+ Adds mod_say_he.
+
+Package: freeswitch-mod-say-hr
+XBS-Module: say/mod_say_hr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_hr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_hr for FreeSWITCH.
+ .
+ Adds mod_say_hr.
+
+Package: freeswitch-mod-say-hu
+XBS-Module: say/mod_say_hu
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_hu for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_hu for FreeSWITCH.
+ .
+ Adds mod_say_hu.
+
+Package: freeswitch-mod-say-it
+XBS-Module: say/mod_say_it
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_it for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_it for FreeSWITCH.
+ .
+ Adds mod_say_it.
+
+Package: freeswitch-mod-say-ja
+XBS-Module: say/mod_say_ja
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_ja for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_ja for FreeSWITCH.
+ .
+ Adds mod_say_ja.
+
+Package: freeswitch-mod-say-nl
+XBS-Module: say/mod_say_nl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_nl for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_nl for FreeSWITCH.
+ .
+ Adds mod_say_nl.
+
+Package: freeswitch-mod-say-pl
+XBS-Module: say/mod_say_pl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_pl for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_pl for FreeSWITCH.
+ .
+ Adds mod_say_pl.
+
+Package: freeswitch-mod-say-pt
+XBS-Module: say/mod_say_pt
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_pt for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_pt for FreeSWITCH.
+ .
+ Adds mod_say_pt.
+
+Package: freeswitch-mod-say-ru
+XBS-Module: say/mod_say_ru
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_ru for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_ru for FreeSWITCH.
+ .
+ Adds mod_say_ru.
+
+Package: freeswitch-mod-say-sv
+XBS-Module: say/mod_say_sv
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_sv for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_sv for FreeSWITCH.
+ .
+ Adds mod_say_sv.
+
+Package: freeswitch-mod-say-th
+XBS-Module: say/mod_say_th
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_th for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_th for FreeSWITCH.
+ .
+ Adds mod_say_th.
+
+Package: freeswitch-mod-say-zh
+XBS-Module: say/mod_say_zh
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_say_zh for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_say_zh for FreeSWITCH.
+ .
+ Adds mod_say_zh.
+
+Package: freeswitch-mod-posix-timer
+XBS-Module: timers/mod_posix_timer
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_posix_timer for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_posix_timer for FreeSWITCH.
+ .
+ Adds mod_posix_timer.
+
+Package: freeswitch-mod-timerfd
+XBS-Module: timers/mod_timerfd
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_timerfd for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_timerfd for FreeSWITCH.
+ .
+ Adds mod_timerfd.
+
+Package: freeswitch-mod-xml-cdr
+XBS-Module: xml_int/mod_xml_cdr
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_xml_cdr for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_xml_cdr for FreeSWITCH.
+ .
+ Adds mod_xml_cdr.
+
+Package: freeswitch-mod-xml-curl
+XBS-Module: xml_int/mod_xml_curl
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_xml_curl for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_xml_curl for FreeSWITCH.
+ .
+ Adds mod_xml_curl.
+
+Package: freeswitch-mod-xml-rpc
+XBS-Module: xml_int/mod_xml_rpc
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_xml_rpc for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_xml_rpc for FreeSWITCH.
+ .
+ Adds mod_xml_rpc.
+
+Package: freeswitch-mod-xml-scgi
+XBS-Module: xml_int/mod_xml_scgi
+Architecture: amd64 arm64 armhf
+Section: comm
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfreeswitch1 (= ${binary:Version})
+Conflicts: freeswitch-all (<< ${binary:Version})
+Description: mod_xml_scgi for FreeSWITCH
+ FreeSWITCH is a scalable open source cross-platform telephony
+ platform designed to route and interconnect popular communication
+ protocols using audio, video, text or any other form of media.
+ .
+ This package contains mod_xml_scgi for FreeSWITCH.
+ .
+ Adds mod_xml_scgi.

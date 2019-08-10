@@ -1,0 +1,41 @@
+# The long file names are caused by appending the nightly information.
+# Since one of these packages will never end up on a Debian CD, the
+# related problems with long file names will never come up here.
+freeswitch: package-has-long-file-name *
+
+# We're not in Debian (yet) so we don't have an ITP bug to close.
+freeswitch: new-package-should-close-itp-bug
+
+# We're definitely not doing this. Nothing in FreeSWITCH has a more
+# restrictive license than LGPL or MPL.
+freeswitch: possible-gpl-code-linked-with-openssl
+
+# No man pages for now.
+freeswitch: binary-without-manpage usr/bin/freeswitch
+freeswitch: binary-without-manpage usr/bin/fs_cli
+freeswitch: binary-without-manpage usr/bin/fs_encode
+freeswitch: binary-without-manpage usr/bin/fs_ivrd
+freeswitch: binary-without-manpage usr/bin/fsxs
+freeswitch: binary-without-manpage usr/bin/gentls_cert
+freeswitch: binary-without-manpage usr/bin/tone2wav
+freeswitch: binary-without-manpage usr/bin/fs_epmd
+freeswitch: binary-without-manpage usr/bin/switch_core
+freeswitch: binary-without-manpage usr/bin/switch_event
+freeswitch: binary-without-manpage usr/bin/switch_hash
+freeswitch: binary-without-manpage usr/bin/switch_ivr_originate
+freeswitch: binary-without-manpage usr/bin/switch_utils
+freeswitch: binary-without-manpage usr/bin/test_avformat
+freeswitch: binary-without-manpage usr/bin/test_iks
+freeswitch: binary-without-manpage usr/bin/test_mod_av
+freeswitch: binary-without-manpage usr/bin/test_nlsml
+freeswitch: binary-without-manpage usr/bin/test_srgs
+
+# We bring our own fonts.
+freeswitch: duplicate-font-file usr/share/freeswitch/fonts/FreeMono.ttf also in fonts-freefont-ttf
+freeswitch: duplicate-font-file usr/share/freeswitch/fonts/FreeSans.ttf also in fonts-freefont-ttf
+
+# Ignore rpath error
+freeswitch: binary-or-shlib-defines-rpath usr/bin/freeswitch /usr/lib
+
+# No prerm script
+freeswitch: maintainer-script-empty prerm

@@ -1,0 +1,16 @@
+# The long file names are caused by appending the nightly information.
+# Since one of these packages will never end up on a Debian CD, the
+# related problems with long file names will never come up here.
+libesl-perl: package-has-long-file-name *
+
+# We're not in Debian (yet) so we don't have an ITP bug to close.
+libesl-perl: new-package-should-close-itp-bug
+
+# We're not GPL complient
+libesl-perl: possible-gpl-code-linked-with-openssl
+
+# Ignore executable bit on perl modules
+libesl-perl: executable-not-elf-or-script *
+
+# We still use *.la files, sadly :(
+libesl-perl: non-empty-dependency_libs-in-la-file *
